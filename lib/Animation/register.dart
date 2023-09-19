@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dropdown_model_list/dropdown_model_list.dart';
 
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
@@ -8,6 +9,15 @@ class MyRegister extends StatefulWidget {
 }
 
 class _MyRegisterState extends State<MyRegister> {
+  DropListModel dropListModel = DropListModel([
+    OptionItem(id: "1", title: "A"),
+    OptionItem(id: "2", title: "B"),
+    OptionItem(id: "3", title: "C"),
+    OptionItem(id: "3", title: "C"),
+  ]);
+  OptionItem optionItemSelected = OptionItem(title: "Expertise");
+
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,22 +26,31 @@ class _MyRegisterState extends State<MyRegister> {
             image: AssetImage('assets/register.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, 'login');
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+          ),
           elevation: 0,
         ),
-        body: Stack(
-          children: [
-            Container(
-              padding: EdgeInsets.only(left: 35, top: 30),
-              child: Text(
-                'Create\nAccount',
-                style: TextStyle(color: Colors.white, fontSize: 33),
+        body: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 35, top: 30),
+                child: Text(
+                  'Create\nAccount',
+                  style: TextStyle(color: Colors.black, fontSize: 33),
+                ),
               ),
-            ),
-            SingleChildScrollView(
-              child: Container(
+              Container(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.28),
                 child: Column(
@@ -42,12 +61,12 @@ class _MyRegisterState extends State<MyRegister> {
                       child: Column(
                         children: [
                           TextField(
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -57,7 +76,7 @@ class _MyRegisterState extends State<MyRegister> {
                                   ),
                                 ),
                                 hintText: "Name",
-                                hintStyle: TextStyle(color: Colors.white),
+                                hintStyle: TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
@@ -66,12 +85,12 @@ class _MyRegisterState extends State<MyRegister> {
                             height: 30,
                           ),
                           TextField(
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -81,7 +100,7 @@ class _MyRegisterState extends State<MyRegister> {
                                   ),
                                 ),
                                 hintText: "Email",
-                                hintStyle: TextStyle(color: Colors.white),
+                                hintStyle: TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
@@ -90,13 +109,116 @@ class _MyRegisterState extends State<MyRegister> {
                             height: 30,
                           ),
                           TextField(
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "Phone number +91",
+                                hintStyle: TextStyle(color: Colors.black),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          TextField(
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "City",
+                                hintStyle: TextStyle(color: Colors.black),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          TextField(
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                hintText: "State",
+                                hintStyle: TextStyle(color: Colors.black),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          SelectDropList(
+                            textColorItem: Colors.black,
+                            hintColorTitle: Colors.black,
+                            paddingLeft: 0,
+                            paddingRight: 0,
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            containerDecoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                border: Border.all(
+                                  color: Colors.black,
+                                )),
+                            itemSelected: optionItemSelected,
+                            dropListModel: dropListModel,
+                            showIcon: true,
+                            showArrowIcon: true,
+                            showBorder: true,
+                            suffixIcon: Icons.arrow_drop_down,
+                            containerPadding: const EdgeInsets.all(10),
+                            icon: const Icon(Icons.person_2_outlined,
+                                color: Colors.black),
+                            onOptionSelected: (optionItem) {
+                              optionItemSelected = optionItem;
+                              setState(() {});
+                            },
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          TextField(
+                            style: TextStyle(color: Colors.black),
                             obscureText: true,
                             decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -106,7 +228,7 @@ class _MyRegisterState extends State<MyRegister> {
                                   ),
                                 ),
                                 hintText: "Password",
-                                hintStyle: TextStyle(color: Colors.white),
+                                hintStyle: TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 )),
@@ -120,7 +242,7 @@ class _MyRegisterState extends State<MyRegister> {
                               Text(
                                 'Sign Up',
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 27,
                                     fontWeight: FontWeight.w700),
                               ),
@@ -139,33 +261,14 @@ class _MyRegisterState extends State<MyRegister> {
                           SizedBox(
                             height: 40,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, 'login');
-                                },
-                                child: Text(
-                                  'Sign In',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Colors.white,
-                                      fontSize: 18),
-                                ),
-                                style: ButtonStyle(),
-                              ),
-                            ],
-                          )
                         ],
                       ),
                     )
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

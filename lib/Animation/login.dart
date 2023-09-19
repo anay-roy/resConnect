@@ -16,21 +16,20 @@ class _MyLoginState extends State<MyLogin> {
             image: AssetImage('assets/login.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
             Container(),
             Container(
-              padding: EdgeInsets.only(left: 35, top: 130),
+              padding: EdgeInsets.only(left: 35, top: 100),
               child: Text(
-                'Welcome\nBack',
-                style: TextStyle(color: Colors.white, fontSize: 33),
+                'Login',
+                style: TextStyle(color: Colors.black, fontSize: 33),
               ),
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.5),
+                padding: EdgeInsets.only(top: 250.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -88,13 +87,12 @@ class _MyLoginState extends State<MyLogin> {
                           SizedBox(
                             height: 40,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, 'register');
-                                },
+                          Center(
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, 'register');
+                              },
+                              child: Center(
                                 child: Text(
                                   'Sign Up',
                                   textAlign: TextAlign.left,
@@ -103,19 +101,9 @@ class _MyLoginState extends State<MyLogin> {
                                       color: Color(0xff4c505b),
                                       fontSize: 18),
                                 ),
-                                style: ButtonStyle(),
                               ),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    'Forgot Password',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Color(0xff4c505b),
-                                      fontSize: 18,
-                                    ),
-                                  )),
-                            ],
+                              style: ButtonStyle(),
+                            ),
                           )
                         ],
                       ),
