@@ -1,9 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.resconnect">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="resconnect"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        >
+        <meta-data android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyCU9R8unAIrwrP2MYUbiLN3b1fyuDUyeCY"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -31,4 +40,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
 </manifest>

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loginuicolors/firebase_auth_method.dart';
 
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
@@ -8,6 +11,22 @@ class MyLogin extends StatefulWidget {
 }
 
 class _MyLoginState extends State<MyLogin> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  void loginUser() {
+    FirebaseAuthMethods(FirebaseAuth.instance).loginwithemail(
+        email: emailController.text,
+        password: passwordController.text,
+        context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,29 +56,35 @@ class _MyLoginState extends State<MyLogin> {
                       margin: EdgeInsets.only(left: 35, right: 35),
                       child: Column(
                         children: [
-                          TextField(
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
-                                fillColor: Colors.grey.shade100,
-                                filled: true,
-                                hintText: "Email",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )),
+                          Container(
+                            child: TextField(
+                              controller: emailController,
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                  fillColor: Colors.grey.shade100,
+                                  filled: true,
+                                  hintText: "Email",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
                           ),
                           SizedBox(
                             height: 30,
                           ),
-                          TextField(
-                            style: TextStyle(),
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                fillColor: Colors.grey.shade100,
-                                filled: true,
-                                hintText: "Password",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )),
+                          Container(
+                            child: TextField(
+                              controller: passwordController,
+                              style: TextStyle(),
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                  fillColor: Colors.grey.shade100,
+                                  filled: true,
+                                  hintText: "Password",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )),
+                            ),
                           ),
                           SizedBox(
                             height: 40,
@@ -77,7 +102,7 @@ class _MyLoginState extends State<MyLogin> {
                                 backgroundColor: Color(0xff4c505b),
                                 child: IconButton(
                                     color: Colors.white,
-                                    onPressed: () {},
+                                    onPressed: loginUser,
                                     icon: Icon(
                                       Icons.arrow_forward,
                                     )),
@@ -90,7 +115,7 @@ class _MyLoginState extends State<MyLogin> {
                           Center(
                             child: TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, 'register');
+                                context.push('/register');
                               },
                               child: Center(
                                 child: Text(
