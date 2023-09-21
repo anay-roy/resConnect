@@ -1,18 +1,14 @@
 import 'package:go_router/go_router.dart';
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loginuicolors/Animation/register.dart';
 import 'package:loginuicolors/map_page/select_loc.dart';
 import 'map_page/info.dart';
 import 'map_page/map.dart';
 import 'Animation/login.dart';
 import 'map_page/nearby.dart';
-import 'map_page/select_loc.dart';
-import 'firebase_auth_method.dart';
 
 class MyAppRoute {
   final router = GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/home',
     routes: [
       GoRoute(
         name: 'home',

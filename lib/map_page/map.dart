@@ -40,70 +40,75 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: []),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        title: Text('ResConnect', style: TextStyle(color: Colors.black)),
+      ),
 
       //drawer
       drawer: Drawer(
+          shadowColor: Colors.black,
           child: ListView(
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 30,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.white),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text('Agency Name',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text('Agency type',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                        ))
+                  ],
                 ),
-                Text('Agency Name',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    )),
-                SizedBox(
-                  height: 10,
+              ),
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Home'),
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Profile'),
+              ),
+              ListTile(
+                leading: Icon(Icons.help),
+                title: Text('NearBy Agencies'),
+                onTap: () {
+                  context.pushNamed('nearby');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.near_me),
+                title: Text('Request Resource'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.sos,
+                  color: Colors.white,
                 ),
-                Text('Agency type',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ))
-              ],
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
-          ),
-          ListTile(
-            leading: Icon(Icons.help),
-            title: Text('NearBy Agencies'),
-            onTap: () {
-              context.pushNamed('nearby');
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.near_me),
-            title: Text('Request Resource'),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.sos,
-              color: Colors.white,
-            ),
-            title: Text('EMERGENCY'),
-            textColor: Colors.white,
-            tileColor: Colors.red,
-            onLongPress: () {
-              context.pushNamed('nearby');
-            },
-          ),
-        ],
-      )),
+                title: Text('EMERGENCY'),
+                textColor: Colors.white,
+                tileColor: Colors.red,
+                onLongPress: () {
+                  context.pushNamed('nearby');
+                },
+              ),
+            ],
+          )),
 
       //body
       body: SafeArea(
@@ -146,7 +151,8 @@ class _MapState extends State<Map> {
         padding: EdgeInsets.all(30),
         alignment: Alignment.bottomLeft,
         child: FloatingActionButton(
-          child: Icon(Icons.location_city),
+          child: Icon(Icons.navigation, color: Colors.black),
+          backgroundColor: Colors.white,
           onPressed: () {
             getLocation().then((value) async {
               currLat = value.latitude;
