@@ -71,7 +71,19 @@ class _MapState extends State<Map> {
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 12,
-                        ))
+                        )),
+                    InkWell(
+                      splashColor: Colors.red,
+                      onTap: () {
+                        print('object');
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
+                          children: [Icon(Icons.person), Text('Profile')],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -93,7 +105,9 @@ class _MapState extends State<Map> {
               ListTile(
                 leading: Icon(Icons.near_me),
                 title: Text('Request Resource'),
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed('resources');
+                },
               ),
               ListTile(
                 leading: Icon(

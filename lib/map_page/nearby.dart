@@ -7,7 +7,9 @@ class NearbyAgencies extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [],
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        title: Text('ResConnect', style: TextStyle(color: Colors.black)),
       ),
       body: ListView.builder(
           itemBuilder: ((context, index) {

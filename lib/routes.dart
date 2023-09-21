@@ -5,6 +5,7 @@ import 'map_page/info.dart';
 import 'map_page/map.dart';
 import 'Animation/login.dart';
 import 'map_page/nearby.dart';
+import 'map_page/resources.dart';
 
 class MyAppRoute {
   final router = GoRouter(
@@ -42,6 +43,11 @@ class MyAppRoute {
         path: '/selectlocation',
         builder: (context, state) => SelectLocation(),
       ),
+      GoRoute(
+        name: 'resources',
+        path: '/resources',
+        builder: (context, state) => Resource(),
+      )
     ],
   );
 }
