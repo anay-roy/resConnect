@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_model_list/dropdown_model_list.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loginuicolors/agencies.dart';
 import '../firebase_auth_method.dart';
 import '../usermodel.dart';
+import 'package:go_router/go_router.dart';
 
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
@@ -26,14 +29,14 @@ class _MyRegisterState extends State<MyRegister> {
     await userRepo.createUser(user);
   }
 
-  void signUpUser() async {
+  void signUpUser(LatLng loc) async {
     final user = usermodel(
         email: emailController.text,
         password: passwordController.text,
         name: nameController.text,
         phoneNumber: phoneController.text,
-        lattitude: cityController.text,
-        longitude: stateController.text,
+        lattitude: loc.latitude.toString(),
+        longitude: loc.longitude.toString(),
         expertise: optionItemSelected.toString());
     if (isverified == false) {
       FirebaseAuthMethods(FirebaseAuth.instance).signUpwithEmail(
@@ -46,11 +49,17 @@ class _MyRegisterState extends State<MyRegister> {
     }
   }
 
+  LatLng? loc = LatLng(0, 0);
+  String address = '';
+  String city = '';
+  String state = '';
+  String postal = '';
+
   DropListModel dropListModel = DropListModel([
-    OptionItem(id: "1", title: "A"),
-    OptionItem(id: "2", title: "B"),
-    OptionItem(id: "3", title: "C"),
-    OptionItem(id: "3", title: "C"),
+    OptionItem(id: "1", title: "Emergency Medical Services"),
+    OptionItem(id: "2", title: "Fire Department"),
+    OptionItem(id: "3", title: "Search and Rescue Team"),
+    OptionItem(id: "3", title: "Swift Water rescue team"),
   ]);
   OptionItem optionItemSelected = OptionItem(title: "Expertise");
 
@@ -196,7 +205,31 @@ class _MyRegisterState extends State<MyRegister> {
                                   color: Colors.white,
                                   border: Border.all(color: Colors.black)),
                               child: ListTile(
-                                title: Text('Choose Location'),
+                                onTap: (() async {
+                                  loc =
+                                      await context.pushNamed('selectlocation');
+                                  List<Placemark> placemarks =
+                                      await placemarkFromCoordinates(
+                                          loc!.latitude, loc!.longitude);
+                                  setState(() {
+                                    address = placemarks.reversed.last.street
+                                        .toString();
+                                    city = placemarks.first.locality.toString();
+                                    state = placemarks.first.administrativeArea
+                                        .toString();
+                                    postal =
+                                        placemarks.first.postalCode.toString();
+                                  });
+                                }),
+                                title: Text(loc == LatLng(0, 0)
+                                    ? 'Choose Location'
+                                    : address +
+                                        ' ' +
+                                        city +
+                                        ' ' +
+                                        postal +
+                                        ' ' +
+                                        state),
                                 trailing: Icon(Icons.location_on_sharp),
                               ),
                             ),
@@ -280,7 +313,9 @@ class _MyRegisterState extends State<MyRegister> {
                                 backgroundColor: Color(0xff4c505b),
                                 child: IconButton(
                                     color: Colors.white,
-                                    onPressed: signUpUser,
+                                    onPressed: () {
+                                      signUpUser(loc!);
+                                    },
                                     icon: Icon(
                                       Icons.arrow_forward,
                                     )),
