@@ -104,8 +104,7 @@ class _SelectLocationState extends State<SelectLocation> {
           child: Icon(Icons.navigate_next),
           onPressed: () {
             //push modified address to database here
-
-            context.goNamed('home');
+            context.pop(dest);
           },
         ),
       ),

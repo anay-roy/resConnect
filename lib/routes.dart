@@ -9,7 +9,7 @@ import 'map_page/resources.dart';
 
 class MyAppRoute {
   final router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/login',
     routes: [
       GoRoute(
         name: 'home',
