@@ -8,7 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loginuicolors/agencies.dart';
 import '../firebase_auth_method.dart';
 import '../usermodel.dart';
-import 'package:go_router/go_router.dart';
 
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
@@ -43,9 +42,8 @@ class _MyRegisterState extends State<MyRegister> {
           email: emailController.text,
           password: passwordController.text,
           context: context);
-      if (isverified == true) {
-        createUser(user);
-      }
+
+      createUser(user);
     }
   }
 

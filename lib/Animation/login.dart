@@ -115,7 +115,7 @@ class _MyLoginState extends State<MyLogin> {
                           Center(
                             child: TextButton(
                               onPressed: () {
-                                context.push('/register');
+                                context.pushNamed('register');
                               },
                               child: Center(
                                 child: Text(

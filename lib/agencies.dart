@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart';
 import 'package:loginuicolors/usermodel.dart';
 
 class Agency extends GetxController {

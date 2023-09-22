@@ -44,6 +44,16 @@ class _MapState extends State<Map> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         title: Text('ResConnect', style: TextStyle(color: Colors.black)),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: Icon(Icons.person),
+                onPressed: () {
+                  context.pushNamed('profile');
+                },
+              ))
+        ],
       ),
 
       //drawer
@@ -72,18 +82,6 @@ class _MapState extends State<Map> {
                           color: Colors.black,
                           fontSize: 12,
                         )),
-                    InkWell(
-                      splashColor: Colors.red,
-                      onTap: () {
-                        print('object');
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [Icon(Icons.person), Text('Profile')],
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),

@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:go_router/go_router.dart';
-import 'Animation/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'ShowSnackbar.dart';
-import 'routes.dart';
 
 late Timer _timer;
 bool isverified = false;
@@ -22,6 +20,18 @@ class FirebaseAuthMethods {
           email: email, password: password);
 
       await sendEmailVerification(context);
+      final user = FirebaseAuth.instance.currentUser;
+      Future(() async {
+        if (user != null) {
+          _timer = Timer.periodic(Duration(seconds: 10), (timer) async {
+            await user.reload();
+            if (user.emailVerified) {
+              timer.cancel();
+              context.push('/home');
+            }
+          });
+        }
+      });
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
     }
@@ -52,11 +62,15 @@ class FirebaseAuthMethods {
 }
 
 void setTimer() {
-  _timer = Timer.periodic(Duration(seconds: 3), (timer) {
-    FirebaseAuth.instance.currentUser?.reload();
-    final user = FirebaseAuth.instance.currentUser;
-    if (user!.emailVerified) {
-      isverified = true;
-    }
-  });
+  if (FirebaseAuth.instance != null) {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      if (FirebaseAuth.instance.currentUser != null) {
+        FirebaseAuth.instance.currentUser!.reload();
+        final user = FirebaseAuth.instance.currentUser;
+        if (user!.emailVerified) {
+          isverified = true;
+        }
+      }
+    });
+  }
 }
