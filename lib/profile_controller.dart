@@ -10,7 +10,6 @@ class Pcontroller extends GetxController {
   getUserData() {
     final email = _authRepo.firebaseUser.value?.email;
     if (email != null) {
-      print('Halwa.....................................');
       return (_userRepo.getUserDetails(email));
       // print(_userRepo.getUserDetails(email).toString());
     } else {
