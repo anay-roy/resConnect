@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_model_list/dropdown_model_list.dart';
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -113,7 +113,19 @@ class _MyRegisterState extends State<MyRegister> {
                         children: [
                           Column(
                             children: [
-                              TextField(
+                              TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter your name';
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType
+                                    .text, // Set the keyboard type to text
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(RegExp(
+                                      r'[a-zA-Z]')), // Allow only alphabetic characters
+                                ],
                                 controller: nameController,
                                 style: TextStyle(color: Colors.black),
                                 decoration: InputDecoration(
@@ -129,7 +141,7 @@ class _MyRegisterState extends State<MyRegister> {
                                         color: Colors.black,
                                       ),
                                     ),
-                                    hintText: "Name",
+                                    hintText: "Agency name",
                                     hintStyle: TextStyle(color: Colors.black),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -141,7 +153,13 @@ class _MyRegisterState extends State<MyRegister> {
                             height: 30,
                           ),
                           Container(
-                            child: TextField(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                return null;
+                              },
                               controller: emailController,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
@@ -168,8 +186,18 @@ class _MyRegisterState extends State<MyRegister> {
                             height: 30,
                           ),
                           Container(
-                            child: TextField(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your Phone number';
+                                }
+                                return null;
+                              },
                               controller: phoneController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -270,7 +298,13 @@ class _MyRegisterState extends State<MyRegister> {
                             height: 30,
                           ),
                           Container(
-                            child: TextField(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your Password';
+                                }
+                                return null;
+                              },
                               controller: passwordController,
                               style: TextStyle(color: Colors.black),
                               obscureText: true,
