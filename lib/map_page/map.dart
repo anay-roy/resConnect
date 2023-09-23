@@ -7,8 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loginuicolors/auth_repo.dart';
 import 'package:loginuicolors/map_page/profile.dart';
+import 'package:loginuicolors/profile_controller.dart';
 import 'dart:async';
 import 'package:loginuicolors/screen_controller.dart';
+import 'package:loginuicolors/usermodel.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -44,7 +46,7 @@ class _MapPageState extends State<MapPage> {
   List<Marker> _marker = [];
   @override
   Widget build(BuildContext context) {
-    print('builing........');
+    final profilecont = Get.put(Pcontroller());
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -153,66 +155,7 @@ class _MapPageState extends State<MapPage> {
                     position: LatLng(currLat, currLon),
                     infoWindow: InfoWindow(title: 'My Location'),
                     onTap: (() {
-                      showModalBottomSheet<void>(
-                        constraints: BoxConstraints.loose(Size(
-                            MediaQuery.of(context).size.width,
-                            MediaQuery.of(context).size.height * 0.75)),
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(45))),
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Container(
-                            height: 700,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    'Agency Type',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    address,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    'Description',
-                                    style: TextStyle(fontSize: 12),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  TextButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(
-                                                Colors.blue),
-                                        foregroundColor:
-                                            MaterialStatePropertyAll(
-                                                Colors.white)),
-                                    onPressed: () => AuthRepo().logout(),
-                                    child: Text('Logout'),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                      Get.to(Profile());
                     })));
               });
               controller.animateCamera(CameraUpdate.newCameraPosition(
