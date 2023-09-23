@@ -72,10 +72,6 @@ class _MyRegisterState extends State<MyRegister> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/register.png'), fit: BoxFit.cover),
-      ),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(

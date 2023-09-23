@@ -6,69 +6,92 @@ import 'package:loginuicolors/profile_controller.dart';
 import 'package:loginuicolors/usermodel.dart';
 
 class Profile extends StatelessWidget {
+  final userData;
+
+  const Profile({required this.userData});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(Pcontroller());
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        title: Text('ResConnect', style: TextStyle(color: Colors.black)),
-      ),
-      body: FutureBuilder<usermodel>(
-        future: controller.getUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // print(snapshot.data);
-            if (snapshot.hasData) {
-              usermodel userData = snapshot.data!; // Non-null assertion
-
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      userData.name!,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Center(
+                child: Container(
+                  height: height * 0.2,
+                  child: Image.asset('Assets/logo.png'),
+                ),
+              ),
+              Container(
+                width: width * 1,
+                height: height * 0.1,
+                child: Card(
+                  child: Center(
+                    child: Text(
+                      'Name : ${userData.name!}',
                       style: TextStyle(fontSize: 20),
                     ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Address: ${userData.email}',
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(
+                width: width * 1,
+                height: height * 0.1,
+                child: Card(
+                  child: Center(
+                    child: Text(
+                      'Email: ${userData.email}',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
-                      userData.expertise!,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    SizedBox(height: 20),
-                    TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                      ),
-                      onPressed: () => AuthRepo().logout(),
-                      child: Text('Logout'),
-                    ),
-                  ],
+                  ),
                 ),
-              );
-            } else {
-              return Text("No data available.");
-            }
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+              ),
+              SizedBox(height: 20),
+              Container(
+                width: width * 1,
+                height: height * 0.1,
+                child: Card(
+                  child: Center(
+                    child: Text(
+                      'Expertise : ${userData.expertise!}',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black),
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+                  onPressed: () => AuthRepo().logout(),
+                  child: Text('Logout'),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

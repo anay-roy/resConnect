@@ -7,9 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loginuicolors/auth_repo.dart';
 import 'package:loginuicolors/map_page/profile.dart';
+import 'package:loginuicolors/map_page/user.dart';
 import 'package:loginuicolors/profile_controller.dart';
 import 'dart:async';
 import 'package:loginuicolors/screen_controller.dart';
+import 'package:loginuicolors/user_repo.dart';
 import 'package:loginuicolors/usermodel.dart';
 
 class MapPage extends StatefulWidget {
@@ -25,7 +27,6 @@ class _MapPageState extends State<MapPage> {
   late double currLat = 0;
   late double currLon = 0;
   String address = '';
-  // final cont=
 
   //get location
   Future<Position> getLocation() async {
@@ -44,7 +45,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   //for markers
-  List<Marker> _marker = [];
+
   @override
   Widget build(BuildContext context) {
     final profilecont = Get.put(Pcontroller());
@@ -59,7 +60,7 @@ class _MapPageState extends State<MapPage> {
               child: IconButton(
                 icon: Icon(Icons.person),
                 onPressed: () {
-                  Get.to(Profile());
+                  // Get.to(Profile());
                 },
               ))
         ],
@@ -133,40 +134,72 @@ class _MapPageState extends State<MapPage> {
 
       //body
       body: SafeArea(
-        child: GoogleMap(
-          initialCameraPosition:
-              CameraPosition(target: LatLng(20.5937, 81.9629), zoom: 4.3),
-          onMapCreated: (GoogleMapController controller) async {
-            getLocation().then((value) async {
-              currLat = value.latitude;
-              currLon = value.longitude;
-              controller = await _controller.future;
+        child: FutureBuilder<usermodel>(
+            future: profilecont.getUserData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  usermodel userData = snapshot.data!;
+                  List<Marker> _marker = [];
+                  return FutureBuilder<List<usermodel>>(
+                    future: UserRepo().allUser(),
+                    builder: (context, snap) {
+                      if (snap.connectionState == ConnectionState.done) {
+                        if (snap.hasData) {
+                          if (snap.connectionState == ConnectionState.done) {
+                            if (snap.hasData) {
+                              snap.data!.forEach((data) {
+                                snap.data!.forEach((data) {
+                                  if (data.lattitude != null &&
+                                      data.longitude != null) {
+                                    _marker.add(
+                                      Marker(
+                                        markerId: MarkerId(data.id ?? ''),
+                                        position: LatLng(
+                                            double.parse(data.lattitude!),
+                                            double.parse(data.longitude!)),
+                                        infoWindow:
+                                            InfoWindow(title: data.name),
+                                        onTap: () {
+                                          Get.to(Profile(
+                                            userData: data,
+                                          ));
+                                        },
+                                      ),
+                                    );
+                                  }
+                                });
+                              });
+                            }
+                          }
 
-              //getting address
-              List<Placemark> placemarks =
-                  await placemarkFromCoordinates(currLat, currLon);
-              address = placemarks.reversed.last.name.toString() +
-                  '\n' +
-                  placemarks.reversed.last.locality.toString() +
-                  '\n' +
-                  placemarks.reversed.last.street.toString();
-              setState(() {
-                _marker.add(Marker(
-                    markerId: MarkerId('2'),
-                    position: LatLng(currLat, currLon),
-                    infoWindow: InfoWindow(title: 'My Location'),
-                    onTap: (() {
-                      Get.to(Profile());
-                    })));
-              });
-              controller.animateCamera(CameraUpdate.newCameraPosition(
-                  CameraPosition(target: LatLng(currLat, currLon), zoom: 10)));
-            });
-            _controller.complete(controller);
-          },
-          mapType: MapType.normal,
-          markers: Set.of(_marker),
-        ),
+                          return GoogleMap(
+                            initialCameraPosition: CameraPosition(
+                                target: LatLng(20.5937, 81.9629), zoom: 4.3),
+                            onMapCreated: (GoogleMapController controller) {
+                              currLat = double.parse(userData.lattitude!);
+                              currLon = double.parse(userData.longitude!);
+
+                              controller.animateCamera(
+                                  CameraUpdate.newCameraPosition(CameraPosition(
+                                      target: LatLng(currLat, currLon),
+                                      zoom: 10)));
+                              // });
+                              _controller.complete(controller);
+                            },
+                            mapType: MapType.normal,
+                            markers: Set.of(_marker),
+                          );
+                        }
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  );
+                }
+                ;
+              }
+              return CircularProgressIndicator();
+            }),
       ),
       floatingActionButton: Container(
         padding: EdgeInsets.all(30),

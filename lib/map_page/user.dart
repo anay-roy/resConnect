@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 String name = '';
-String email = '';
+// String email = '';
 _fetch() async {
   final firebaseUser = await FirebaseAuth.instance.currentUser;
   if (firebaseUser != null) {

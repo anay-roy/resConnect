@@ -16,4 +16,13 @@ class Pcontroller extends GetxController {
       Get.snackbar("Error", "Login to continue");
     }
   }
+
+  getIndData(email) {
+    if (email != null) {
+      return (_userRepo.getUserDetails(email));
+      // print(_userRepo.getUserDetails(email).toString());
+    } else {
+      Get.snackbar("Error", "Login to continue");
+    }
+  }
 }

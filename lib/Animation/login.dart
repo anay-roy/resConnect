@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loginuicolors/Animation/register.dart';
 import 'package:loginuicolors/auth_repo.dart';
+import 'package:loginuicolors/screen_controller.dart';
 import 'package:loginuicolors/screen_controller.dart';
 
 class MyLogin extends StatefulWidget {
@@ -39,11 +42,11 @@ class _MyLoginState extends State<MyLogin> {
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
+        body: Stack(
           children: [
             Container(),
             Container(
-              padding: EdgeInsets.only(right: 280, top: 250),
+              padding: EdgeInsets.only(left: 35, top: 100),
               child: Text(
                 'Login',
                 style: TextStyle(color: Colors.black, fontSize: 33),
@@ -51,7 +54,7 @@ class _MyLoginState extends State<MyLogin> {
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(top: 40.0),
+                padding: EdgeInsets.only(top: 250.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
