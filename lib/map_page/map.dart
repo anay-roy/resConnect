@@ -25,6 +25,7 @@ class _MapPageState extends State<MapPage> {
   late double currLat = 0;
   late double currLon = 0;
   String address = '';
+  // final cont=
 
   //get location
   Future<Position> getLocation() async {
