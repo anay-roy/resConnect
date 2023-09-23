@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loginuicolors/agencies.dart';
-import '../firebase_auth_method.dart';
+
 import '../usermodel.dart';
+import 'package:loginuicolors/auth_repo.dart';
 
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
@@ -37,8 +38,8 @@ class _MyRegisterState extends State<MyRegister> {
         lattitude: loc.latitude.toString(),
         longitude: loc.longitude.toString(),
         expertise: optionItemSelected.toString());
-    if (isverified == false) {
-      FirebaseAuthMethods(FirebaseAuth.instance).signUpwithEmail(
+    if (AuthRepo.instance.firebaseUser == null) {
+      AuthRepo().signUpwithEmail(
           email: emailController.text,
           password: passwordController.text,
           context: context);
@@ -81,7 +82,7 @@ class _MyRegisterState extends State<MyRegister> {
           backgroundColor: Colors.white,
           leading: IconButton(
             onPressed: () {
-              context.pop();
+              Get.back();
             },
             icon: Icon(
               Icons.arrow_back_ios,

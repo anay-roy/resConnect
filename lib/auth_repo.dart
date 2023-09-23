@@ -1,15 +1,37 @@
 import 'dart:async';
-import 'package:go_router/go_router.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'ShowSnackbar.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loginuicolors/Animation/register.dart';
+import 'package:loginuicolors/ShowSnackbar.dart';
+import 'package:loginuicolors/map_page/map.dart';
+import 'package:loginuicolors/map_page/nearby.dart';
+import 'package:loginuicolors/map_page/profile.dart';
+import 'package:loginuicolors/screen_controller.dart';
+import 'Animation/login.dart';
 
-late Timer _timer;
-bool isverified = false;
+class AuthRepo extends GetxController {
+  late Timer _timer;
+  static AuthRepo get instance => Get.find();
+  //variable
+  final _auth = FirebaseAuth.instance;
+  late final Rx<User?> firebaseUser;
 
-class FirebaseAuthMethods {
-  final FirebaseAuth _auth;
-  FirebaseAuthMethods(this._auth);
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    firebaseUser = Rx<User?>(_auth.currentUser);
+    firebaseUser.bindStream(_auth.userChanges());
+    ever(firebaseUser, _setInitialScreen);
+  }
+
+  _setInitialScreen(User? user) {
+    print(user);
+    user == null ? Get.offAll(() => MyLogin()) : Get.offAll(() => MapPage());
+  }
+
   Future<void> signUpwithEmail({
     required String email,
     required String password,
@@ -18,7 +40,7 @@ class FirebaseAuthMethods {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
+      if (firebaseUser.value != null) Get.offAll(() => MyLogin());
       await sendEmailVerification(context);
       final user = FirebaseAuth.instance.currentUser;
       Future(() async {
@@ -27,7 +49,7 @@ class FirebaseAuthMethods {
             await user.reload();
             if (user.emailVerified) {
               timer.cancel();
-              context.push('/home');
+              Get.back();
             }
           });
         }
@@ -46,31 +68,20 @@ class FirebaseAuthMethods {
     }
   }
 
+  final screen = Get.put(ScreenController());
   Future<void> loginwithemail({
     required String email,
     required String password,
     required BuildContext context,
   }) async {
+    print(_auth.currentUser);
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      context.goNamed('home');
-      // if (_auth.currentUser!.emailVerified) {}
+      Get.offAll(MapPage());
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, 'invalid Credentials');
     }
   }
-}
 
-void setTimer() {
-  if (FirebaseAuth.instance != null) {
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
-      if (FirebaseAuth.instance.currentUser != null) {
-        FirebaseAuth.instance.currentUser!.reload();
-        final user = FirebaseAuth.instance.currentUser;
-        if (user!.emailVerified) {
-          isverified = true;
-        }
-      }
-    });
-  }
+  Future<void> logout() async => await _auth.signOut();
 }
