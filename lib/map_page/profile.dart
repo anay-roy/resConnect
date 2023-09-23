@@ -8,13 +8,22 @@ import 'package:loginuicolors/usermodel.dart';
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     final controller = Get.put(Pcontroller());
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-        title: Text('ResConnect', style: TextStyle(color: Colors.black)),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
       ),
       body: FutureBuilder<usermodel>(
         future: controller.getUserData(),
@@ -27,34 +36,67 @@ class Profile extends StatelessWidget {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      userData.name!,
-                      style: TextStyle(fontSize: 20),
+                    Center(
+                      child: Container(
+                        height: height * 0.2,
+                        child: Image.asset('Assets/logo.png'),
+                      ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Address: ${userData.email}',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      width: width * 1,
+                      height: height * 0.1,
+                      child: Card(
+                        child: Center(
+                          child: Text(
+                            'Name : ${userData.name!}',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      userData.expertise!,
-                      style: TextStyle(fontSize: 12),
+                    Container(
+                      width: width * 1,
+                      height: height * 0.1,
+                      child: Card(
+                        child: Center(
+                          child: Text(
+                            'Email: ${userData.email}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 20),
-                    TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white),
+                    Container(
+                      width: width * 1,
+                      height: height * 0.1,
+                      child: Card(
+                        child: Center(
+                          child: Text(
+                            'Expertise : ${userData.expertise!}',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
                       ),
-                      onPressed: () => AuthRepo().logout(),
-                      child: Text('Logout'),
+                    ),
+                    SizedBox(height: 20),
+                    Center(
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.black),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                        ),
+                        onPressed: () => AuthRepo().logout(),
+                        child: Text('Logout'),
+                      ),
                     ),
                   ],
                 ),

@@ -25,7 +25,6 @@ class _MapPageState extends State<MapPage> {
   late double currLat = 0;
   late double currLon = 0;
   String address = '';
-  // final cont=
 
   //get location
   Future<Position> getLocation() async {
@@ -188,3 +187,63 @@ class _MapPageState extends State<MapPage> {
     );
   }
 }
+// showModalBottomSheet<void>(
+//                         constraints: BoxConstraints.loose(Size(
+//                             MediaQuery.of(context).size.width,
+//                             MediaQuery.of(context).size.height * 0.75)),
+//                         isScrollControlled: true,
+//                         shape: const RoundedRectangleBorder(
+//                             borderRadius: BorderRadius.vertical(
+//                                 top: Radius.circular(45))),
+//                         context: context,
+//                         builder: (BuildContext context) {
+//                           return Container(
+//                             height: 700,
+//                             child: Center(
+//                               child: Column(
+//                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                 mainAxisSize: MainAxisSize.min,
+//                                 children: <Widget>[
+//                                   Text(
+//                                     'Agency Type',
+//                                     style: TextStyle(fontSize: 20),
+//                                     textAlign: TextAlign.left,
+//                                   ),
+//                                   SizedBox(
+//                                     height: 20,
+//                                   ),
+//                                   Text(
+//                                     address,
+//                                     style: TextStyle(
+//                                         fontSize: 15,
+//                                         fontWeight: FontWeight.bold),
+//                                     textAlign: TextAlign.left,
+//                                   ),
+//                                   SizedBox(
+//                                     height: 20,
+//                                   ),
+//                                   Text(
+//                                     'Description',
+//                                     style: TextStyle(fontSize: 12),
+//                                     textAlign: TextAlign.left,
+//                                   ),
+//                                   SizedBox(
+//                                     height: 20,
+//                                   ),
+//                                   TextButton(
+//                                     style: ButtonStyle(
+//                                         backgroundColor:
+//                                             MaterialStatePropertyAll(
+//                                                 Colors.blue),
+//                                         foregroundColor:
+//                                             MaterialStatePropertyAll(
+//                                                 Colors.white)),
+//                                     onPressed: () => AuthRepo().logout(),
+//                                     child: Text('Logout'),
+//                                   )
+//                                 ],
+//                               ),
+//                             ),
+//                           );
+//                         },
+//                       );
