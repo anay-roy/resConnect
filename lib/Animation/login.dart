@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loginuicolors/firebase_auth_method.dart';
+import 'package:loginuicolors/Animation/register.dart';
+import 'package:loginuicolors/auth_repo.dart';
+import 'package:loginuicolors/screen_controller.dart';
+import 'package:loginuicolors/screen_controller.dart';
 
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
@@ -20,8 +24,9 @@ class _MyLoginState extends State<MyLogin> {
     passwordController.dispose();
   }
 
+  final repo = Get.put(AuthRepo());
   void loginUser() {
-    FirebaseAuthMethods(FirebaseAuth.instance).loginwithemail(
+    AuthRepo.instance.loginwithemail(
         email: emailController.text,
         password: passwordController.text,
         context: context);
@@ -29,6 +34,7 @@ class _MyLoginState extends State<MyLogin> {
 
   @override
   Widget build(BuildContext context) {
+    print(ScreenController.find.val);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -115,7 +121,7 @@ class _MyLoginState extends State<MyLogin> {
                           Center(
                             child: TextButton(
                               onPressed: () {
-                                context.pushNamed('register');
+                                Get.to(MyRegister());
                               },
                               child: Center(
                                 child: Text(

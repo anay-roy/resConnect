@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:loginuicolors/auth_repo.dart';
+import 'package:loginuicolors/map_page/profile.dart';
 import 'dart:async';
+import 'package:loginuicolors/screen_controller.dart';
 
-class Map extends StatefulWidget {
-  const Map({Key? key}) : super(key: key);
+class MapPage extends StatefulWidget {
+  const MapPage({Key? key}) : super(key: key);
 
   @override
-  State<Map> createState() => _MapState();
+  State<MapPage> createState() => _MapPageState();
 }
 
-class _MapState extends State<Map> {
+class _MapPageState extends State<MapPage> {
   //variables
   Completer<GoogleMapController> _controller = Completer();
   late double currLat = 0;
@@ -39,6 +44,7 @@ class _MapState extends State<Map> {
   List<Marker> _marker = [];
   @override
   Widget build(BuildContext context) {
+    print('builing........');
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -50,7 +56,7 @@ class _MapState extends State<Map> {
               child: IconButton(
                 icon: Icon(Icons.person),
                 onPressed: () {
-                  context.pushNamed('profile');
+                  Get.to(Profile());
                 },
               ))
         ],
@@ -147,7 +153,66 @@ class _MapState extends State<Map> {
                     position: LatLng(currLat, currLon),
                     infoWindow: InfoWindow(title: 'My Location'),
                     onTap: (() {
-                      context.push('/info', extra: address);
+                      showModalBottomSheet<void>(
+                        constraints: BoxConstraints.loose(Size(
+                            MediaQuery.of(context).size.width,
+                            MediaQuery.of(context).size.height * 0.75)),
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(45))),
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 700,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    'Agency Type',
+                                    style: TextStyle(fontSize: 20),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    address,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    'Description',
+                                    style: TextStyle(fontSize: 12),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Colors.blue),
+                                        foregroundColor:
+                                            MaterialStatePropertyAll(
+                                                Colors.white)),
+                                    onPressed: () => AuthRepo().logout(),
+                                    child: Text('Logout'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     })));
               });
               controller.animateCamera(CameraUpdate.newCameraPosition(
